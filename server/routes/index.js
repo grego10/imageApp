@@ -9,5 +9,6 @@ export default (app) => {
 
     app.post('/api/images', upload.single("file"), Images.addImage);
     app.get('/api/images', Images.getListImages);
-    app.delete('/api/images/:imageId', Images.deleteImage);
+    app.get('/api/images/:id', Images.downloadImage);
+    app.delete('/api/images/:id', Images.deleteImage);
 };
