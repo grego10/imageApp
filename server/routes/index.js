@@ -6,5 +6,7 @@ export default (app) => {
         message: 'Welcome to the image storage API!',
     }));
 
-    app.post('/api/images', Images.addImage); // API route to add images
+    app.post('/api/images', Images.addImage);
+    app.get('/api/images', Images.getAllImages);
+    app.delete('/api/images/:imageId', Images.deleteImage);
 };
