@@ -1,4 +1,5 @@
 import Images from '../controllers/image';
+import upload from '../config/multer.config';
 
 export default (app) => {
 
@@ -6,7 +7,7 @@ export default (app) => {
         message: 'Welcome to the image storage API!',
     }));
 
-    app.post('/api/images', Images.addImage);
-    app.get('/api/images', Images.getAllImages);
+    app.post('/api/images', upload.single("file"), Images.addImage);
+    app.get('/api/images', Images.getListImages);
     app.delete('/api/images/:imageId', Images.deleteImage);
 };

@@ -1,14 +1,16 @@
 import model from '../models';
+import stream from 'stream'
 
 const { image } = model;
 
 class Images {
   static addImage(req, res) {
-    const { name, type } = req.body
+    console.log(req.file.originalname)
     return image
       .create({
-        name,
-        type
+        type: req.file.mimetype,
+        name: req.file.originalname,
+        data: req.file.buffer
       })
       .then(imageData => res.status(201).send({
         success: true,
@@ -17,9 +19,9 @@ class Images {
       }))
   }
 
-  static getAllImages(req, res) {
+  static getListImages(req, res) {
     return image
-      .findAll()
+      .findAll({attributes: ['id', 'name']})
       .then(images => res.status(200).send(images));
   }
 

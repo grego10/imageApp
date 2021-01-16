@@ -13,6 +13,9 @@ export default (sequelize, DataTypes) => {
         args: false,
         msg: 'Please enter the type'
       }
+    },
+    data: {
+      type: DataTypes.BLOB('long')
     }
   }, {});
   return image;
