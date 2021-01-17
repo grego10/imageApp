@@ -5,8 +5,8 @@ const { image } = model;
 
 class Images {
   static addImage(req, res) {
-    console.log(req.file.originalname)
-    return image
+    try {
+      return image
       .create({
         type: req.file.mimetype,
         name: req.file.originalname,
@@ -17,6 +17,10 @@ class Images {
         message: 'Image successfully created',
         imageData
       }))
+    } catch (err) {
+      return res.status(400).send({ message: err.message });
+    }
+    
   }
 
   static getListImages(req, res) {
@@ -36,7 +40,7 @@ class Images {
         if (result) {
           return res.status(200).send({ message: 'Image successfully deleted' })
         }
-        return res.status(400).send({ message: 'No image found', });
+        return res.status(400).send({ message: 'No image found' });
       })
       .catch(error => res.status(400).send(error))
   }
