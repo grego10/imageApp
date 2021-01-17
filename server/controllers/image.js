@@ -5,28 +5,30 @@ const { image } = model;
 
 class Images {
   static addImage(req, res) {
-    try {
-      return image
+    return image
       .create({
         type: req.file.mimetype,
         name: req.file.originalname,
         data: req.file.buffer
       })
-      .then(imageData => res.status(201).send({
+      .then(res.status(201).send({
         success: true,
         message: 'Image successfully created',
-        imageData
-      }))
-    } catch (err) {
-      return res.status(400).send({ message: err.message });
-    }
-    
+      })).catch(err => {
+        console.log(err);
+        res.status(400).send({ message: 'Error while uploading file' });
+      });
+
   }
 
   static getListImages(req, res) {
     return image
       .findAll({ attributes: ['id', 'name'] })
-      .then(images => res.status(200).send(images));
+      .then(images => res.status(200).send(images))
+      .catch(err => {
+        console.log(err);
+        res.status(400).send({ message: 'Error while getting images' });
+      });
   }
 
   static deleteImage(req, res) {
@@ -42,11 +44,14 @@ class Images {
         }
         return res.status(400).send({ message: 'No image found' });
       })
-      .catch(error => res.status(400).send(error))
+      .catch(err => res.status(400).send(err))
   }
 
   static downloadImage(req, res) {
     image.findByPk(req.params.id).then(image => {
+      if(!image){
+        throw new Error
+      }
       var fileContents = Buffer.from(image.data, "base64");
       var readStream = new stream.PassThrough();
       readStream.end(fileContents);
@@ -56,8 +61,7 @@ class Images {
 
       readStream.pipe(res);
     }).catch(err => {
-      console.log(err);
-      res.json({ msg: 'Error', detail: err });
+      res.status(400).send({ message: 'No image found' });
     });
   }
 }
