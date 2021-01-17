@@ -9,6 +9,15 @@ This api supports:
 - Downloading images from the database
 - Getting a list of all the images in the database
 
+## Tools
+1. NodeJS: runtime environment outside of browser.
+2. Express: Node.js web app framework used to make a server for this application.
+3. ProsgreSQL: SQL open source relational database system used to store data.
+4. Sequelize: Object relational mapper used to communicate with PostgreSQL database.
+5. Multer: middleware used for handling file upload.  
+6. ES6: Javascript version.
+7. Postman: software used to interact with the api.
+
 ## Installation
 * Clone the repo by using ```git clone```.
 * Run ```npm install``` on the cloned directory.
